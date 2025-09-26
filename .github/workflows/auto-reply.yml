@@ -16,7 +16,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.9'
 
       - name: Install dependencies
         run: |
@@ -41,7 +41,7 @@ jobs:
         env:
           TIMEZONE: Asia/Singapore
           INCLUDE_LABELS: INBOX
-          DRY_RUN: "false"
+          DRY_RUN: "true"
         run: |
           python src/main.py  --dry-run
 
@@ -49,7 +49,7 @@ jobs:
         env:
           TIMEZONE: Asia/Singapore
           INCLUDE_LABELS: INBOX
-          DRY_RUN: "false"
+          DRY_RUN: "true"
         run: |
           python src/main.py --run --accounts photogridapp.feedback@gmail.com --dry-run
 
