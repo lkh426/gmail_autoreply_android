@@ -32,7 +32,7 @@ auth_*.json
 *.tokens
 
 # App state (runtime)
-data/state.json
+# 提交默认的 data/state.json，仍然忽略各账号的独立 state_*.json
 data/state_*.json
 
 # Logs
