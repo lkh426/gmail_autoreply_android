@@ -39,7 +39,7 @@
         "salah penagihan",
         "tolong refund"
       ],
-      "template": "templates/pg_refund_android.txt",
+      "template": "templates/pg_refund_ios.txt",
       "subject_prefix": ""
     }
   ]

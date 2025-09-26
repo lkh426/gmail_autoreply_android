@@ -1,16 +1,16 @@
 Dear user,
 
-Thanks for reaching out to us. 
+Thanks for reaching out to us.
 There are some reasons that might cause you to be charged accidentally:
 1. Tried the trial and forgot to cancel it. Because PhotoGrid's free trial period will be automatically renewed if users don't cancel it at least 24 hours before it expires.
 2. Double-clicked the trial or the premium features. Each account can only try the trial once, so if the user has already tried it, will be charged immediately when clicking again.
 3. Forgot to cancel the subscription. All our premium plans will be automatically renewed if users don't cancel them at least 24 hours before they expire.
 If you would like to cancel your subscription and apply for a refund, please follow these links.
 - To unsubscribe from PhotoGrid and turn off auto-updates: https://support.apple.com/en-am/HT202039
-- To apply for a refund for the App Store: https://support.apple.com/en-us/HT204084 
-FYI, the refund operation time of the App Store is at least 2 ~ 3 days. Please wait patiently. 
+- To apply for a refund for the App Store: https://support.apple.com/en-us/HT204084
+FYI, the refund operation time of the App Store is at least 2 ~ 3 days. Please wait patiently.
 
-Because all the application payment processes are through the App Store, we are not authorized to directly cancel your subscription and refund you. 
+Because all the application payment processes are through the App Store, we are not authorized to directly cancel your subscription and refund you.
 This is due to the payment and personal policy on the App Store. We are sincerely sorry for the inconvenience.
 
 Thank you for your patience and understanding. If you have any further questions or suggestions, please feel free to contact us.

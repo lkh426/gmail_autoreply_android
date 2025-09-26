@@ -1,7 +1,7 @@
 Dear user,
 
-Grateful for downloading PhotoGrid. 
-To keep enhancing and providing the best user experience for users, we hope that you can share with us which part of the function does not satisfy you. We will try our best to bring a better version! 
+Grateful for downloading PhotoGrid.
+To keep enhancing and providing the best user experience for users, we hope that you can share with us which part of the function does not satisfy you. We will try our best to bring a better version!
 
 If you still wish to unsubscribe, please follow these steps to view, change, or cancel your subscriptions:
 
@@ -11,7 +11,7 @@ On your Android device:
 3. Tap Payment & subscriptions.
 4. Tap the subscription that you want to manage.
 5. Here you have the options to cancel your subscription, restore your subscription, or change your payment method.
- 
+
 On any web browser:
 1. Sign in to the Google Play website.
 2. Click on the account icon located on your upper ring hand corner and select "Payments & Subscription," you should be able to select the Subscription section.
