@@ -1,13 +1,20 @@
 Dear user,
 
-Thanks for your reply.
-If you want to apply for a refund, please visit this link: https://support.google.com/googleplay/workflow/9813244?hl=en&sjid=15005096092923743198-AP
-The refund operation time of the Play Store is at least 2 ~ 3 days. Please wait patiently after completing the following steps. 
+Thanks for reaching out to us. 
+There are some reasons that might cause you to be charged accidentally:
+1. Tried the trial and forgot to cancel it. Because PhotoGrid's free trial period will be automatically renewed if users don't cancel it at least 24 hours before it expires.
+2. Double-clicked the trial or the premium features. Each account can only try the trial once, so if the user has already tried it, will be charged immediately when clicking again.
+3. Forgot to cancel the subscription. All our premium plans will be automatically renewed if users don't cancel them at least 24 hours before they expire.
+If you would like to cancel your subscription and apply for a refund, please follow these links.
+- To unsubscribe from PhotoGrid and turn off auto-updates: https://support.apple.com/en-am/HT202039
+- To apply for a refund for the App Store: https://support.apple.com/en-us/HT204084 
+FYI, the refund operation time of the App Store is at least 2 ~ 3 days. Please wait patiently. 
 
-If you want to turn off auto-updates and unsubscribe from the store, in order to prevent accidentally wrong orders, please visit the link: https://support.google.com/googleplay/workflow/9827184?sjid=1921449151148107108-AP&visit_id=638563450790959167-2658423183&p=cancelsubsawf&rd=1&hl=en
+Because all the application payment processes are through the App Store, we are not authorized to directly cancel your subscription and refund you. 
+This is due to the payment and personal policy on the App Store. We are sincerely sorry for the inconvenience.
 
-Because all the application payment processes are through the Play Store, we are not authorized to directly cancel your subscription and refund you. This is due to the payment and personal policy on the Play Store. We are sincerely sorry for the inconvenience.
-Thank you for your patience and understanding. Please stay with us and we will try hard to improve.
+Thank you for your patience and understanding. If you have any further questions or suggestions, please feel free to contact us.
+Wish you all the best!
 
 Sincerely,
 PhotoGrid Team

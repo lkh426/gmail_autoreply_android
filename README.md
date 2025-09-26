@@ -40,6 +40,11 @@ python3.9 src/main.py --run
 python3.9 src/main.py --dry-run
 # 多账号运行（也可通过 .env: ACCOUNTS=...）
 python3.9 src/main.py --run --accounts first@example.com,second@example.com
+
+python3.9 src/main.py --run --accounts photogridapp.feedback@gmail.com
+# 演练模式（不真正发信）
+python3.9 src/main.py --run --accounts photogridapp.feedback@gmail.com --dry-run
+
 ```
 
 6. **定时执行**：
