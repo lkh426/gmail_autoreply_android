@@ -1,0 +1,41 @@
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Envs / IDE
+.venv/
+venv/
+.env
+.env.*
+.vscode/
+.idea/
+
+# Credentials & Tokens (do NOT commit secrets)
+credentials.json
+credentials_*.json
+client_secret*.json
+token.json
+token_*.json
+auth.json
+auth_*.json
+*.credentials
+*.tokens
+
+# App state (runtime)
+data/state.json
+data/state_*.json
+
+# Logs
+logs/
+*.log
+

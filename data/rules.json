@@ -1,0 +1,46 @@
+{
+  "apply_label": "莫名扣款",
+  "mark_as_read_after_reply": true,
+  "rules": [
+    {
+      "name": "refund",
+      "match_mode": "any",
+      "keywords": [
+        "退款",
+        "退费",
+        "退錢",
+        "退費",
+        "取消订阅",
+        "取消訂閱",
+        "退钱",
+        "扣款",
+        "重复扣款",
+        "重複扣款",
+        "未授权扣款",
+        "未授權扣款",
+        "refund",
+        "cancel subscription",
+        "unsubscribe",
+        "unauthorized charge",
+        "unauthorised charge",
+        "double charge",
+        "duplicate charge",
+        "charged by mistake",
+        "billing error",
+        "cancel and refund",
+        "pengembalian dana",
+        "batalkan langganan",
+        "berhenti berlangganan",
+        "pembatalan berlangganan",
+        "penagihan tidak sah",
+        "biaya tidak sah",
+        "biaya ganda",
+        "penagihan ganda",
+        "salah penagihan",
+        "tolong refund"
+      ],
+      "template": "templates/refund_reply.txt",
+      "subject_prefix": ""
+    }
+  ]
+}
