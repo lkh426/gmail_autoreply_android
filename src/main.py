@@ -67,33 +67,28 @@ def extract_rating_from_text(text: str) -> Optional[int]:
                 continue
     return None
 
-def main():
-    parser = argparse.ArgumentParser(description="Gmail Auto Reply Tool")
-    parser.add_argument("--init-auth", action="store_true", help="Run OAuth flow only")
-    parser.add_argument("--run", action="store_true", help="Run auto-reply once")
-    parser.add_argument("--dry-run", action="store_true", help="Do not send emails")
-    parser.add_argument("--date", type=str, help="Override date (YYYY-MM-DD)")
-    args = parser.parse_args()
+def _safe_account_name(account: Optional[str]) -> Optional[str]:
+    if not account:
+        return None
+    name = account.replace('@', '_')
+    name = re.sub(r"[^a-zA-Z0-9_]+", "_", name)
+    return name
 
-    load_dotenv()
-    tz = os.getenv("TIMEZONE", "Asia/Singapore")
-    include_labels = [l.strip() for l in os.getenv("INCLUDE_LABELS", "INBOX").split(",") if l.strip()]
-    skip_senders = [s.strip().lower() for s in os.getenv("SKIP_SENDERS", "").split(",") if s.strip()]
-    dry_run = args.dry_run or os.getenv("DRY_RUN", "false").lower() == "true"
 
-    try:
-        # 使用项目根目录下的 credentials.json 与 token.json（与本文件相对路径），避免因工作目录不同而找不到文件
-        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-        credentials_path = os.path.join(project_root, "credentials.json")
-        token_path = os.path.join(project_root, "token.json")
-        service = build_service(credentials_path=credentials_path, token_path=token_path)
-    except Exception as e:
-        print("[ERROR] 构建 Gmail 服务失败：", e)
-        return
+def _load_rules_for_account(account: Optional[str]):
+    base = os.path.join(os.path.dirname(__file__), "..", "data")
+    default_rules_path = os.path.join(base, "rules.json")
+    if account:
+        safe = _safe_account_name(account)
+        candidate = os.path.join(base, f"rules_{safe}.json")
+        if os.path.exists(candidate):
+            return load_rules(candidate)
+    return load_rules(default_rules_path)
 
-    if args.init_auth and not args.run:
-        print("OAuth 授权完成。")
-        return
+
+def process_one_account(account: Optional[str], args, tz: str, include_labels, skip_senders, dry_run: bool):
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    credentials_path = os.path.join(project_root, "credentials.json")
 
     # compute date in timezone
     if args.date:
@@ -101,19 +96,30 @@ def main():
     else:
         the_date = datetime.now(ZoneInfo(tz)).date()
 
-    # load rules and state（提前加载，便于在查询中过滤已有业务标签的会话）
-    rules = load_rules(os.path.join(os.path.dirname(__file__), "..", "data", "rules.json"))
-    state_path = os.path.join(os.path.dirname(__file__), "..", "data", "state.json")
-    state = load_state(state_path)
+    safe = _safe_account_name(account)
+    token_path = os.path.join(project_root, f"token_{safe}.json") if account else os.path.join(project_root, "token.json")
+    state_path = os.path.join(os.path.dirname(__file__), "..", "data", f"state_{safe}.json") if account else os.path.join(os.path.dirname(__file__), "..", "data", "state.json")
+
+    print(f"[INFO] 开始处理账号: {account or 'default'}  token: {os.path.basename(token_path)}  state: {os.path.basename(state_path)}")
+    try:
+        service = build_service(credentials_path=credentials_path, token_path=token_path)
+    except Exception as e:
+        print(f"[ERROR] 构建 Gmail 服务失败({account or 'default'}):", e)
+        return
+
+    # 规则（可按账号覆写）
+    rules = _load_rules_for_account(account)
 
     # 规则中的标签
     apply_label_name = rules.get("apply_label") or "莫名扣款"
+
+    # 按账号加载/保存状态
+    state = load_state(state_path)
 
     # 构建查询，并排除已打上业务标签的会话（如：莫名扣款）
     q = build_query_for_date() + f" -label:\"{apply_label_name}\""
     print(f"[INFO] 查询日期: {the_date}  查询语句: {q}  包含标签: {include_labels}")
     apply_label_id = ensure_label(service, apply_label_name)
-
 
     try:
         msgs = query_messages(service, q=q, include_labels=include_labels)
@@ -122,7 +128,6 @@ def main():
         return
     unique_threads = {m.get('threadId') for m in msgs if m.get('threadId')}
     print(f"[INFO] 匹配到 {len(msgs)} 封消息，{len(unique_threads)} 个未读邮件")
-
 
     for m in msgs:
         msg = get_message(service, m['id'])
@@ -197,6 +202,59 @@ def main():
                 print(f"[OK] 已回复并打标签，消息ID: {resp.get('id')}")
             except HttpError as e:
                 print(f"[ERROR] 发送失败: {e}")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Gmail Auto Reply Tool")
+    parser.add_argument("--init-auth", action="store_true", help="Run OAuth flow only")
+    parser.add_argument("--run", action="store_true", help="Run auto-reply once")
+    parser.add_argument("--dry-run", action="store_true", help="Do not send emails")
+    parser.add_argument("--date", type=str, help="Override date (YYYY-MM-DD)")
+    parser.add_argument("--accounts", type=str, help="逗号分隔的 Gmail 账号列表，用于多账号处理")
+    args = parser.parse_args()
+
+    load_dotenv()
+    tz = os.getenv("TIMEZONE", "Asia/Singapore")
+    include_labels = [l.strip() for l in os.getenv("INCLUDE_LABELS", "INBOX").split(",") if l.strip()]
+    skip_senders = [s.strip().lower() for s in os.getenv("SKIP_SENDERS", "").split(",") if s.strip()]
+    dry_run = args.dry_run or os.getenv("DRY_RUN", "false").lower() == "true"
+
+    # 解析多账号
+    accounts_str = (args.accounts or os.getenv("ACCOUNTS", "")).strip()
+    accounts = [a.strip() for a in accounts_str.split(",") if a.strip()]
+    if not accounts:
+        accounts = [None]  # 兼容单账号
+
+    # 仅执行 OAuth 授权（不跑业务）
+    if args.init_auth and not args.run:
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+        credentials_path = os.path.join(project_root, "credentials.json")
+        for account in accounts:
+            safe = _safe_account_name(account)
+            token_path = os.path.join(project_root, f"token_{safe}.json") if account else os.path.join(project_root, "token.json")
+            try:
+                _ = build_service(credentials_path=credentials_path, token_path=token_path)
+                print(f"[OK] OAuth 授权完成: {account or 'default'} -> {os.path.basename(token_path)}")
+            except Exception as e:
+                print(f"[ERROR] 构建 Gmail 服务失败({account or 'default'}):", e)
+        print("OAuth 授权完成。")
+        return
+
+    # compute date in timezone
+    if args.date:
+        the_date = datetime.strptime(args.date, "%Y-%m-%d").date()
+    else:
+        the_date = datetime.now(ZoneInfo(tz)).date()
+
+    for account in accounts:
+        process_one_account(
+            account=account,
+            args=args,
+            tz=tz,
+            include_labels=include_labels,
+            skip_senders=skip_senders,
+            dry_run=dry_run,
+        )
 
 if __name__ == "__main__":
     main()

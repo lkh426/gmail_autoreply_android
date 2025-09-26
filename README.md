@@ -1,7 +1,7 @@
 
 # Gmail Auto-Reply (Python 3.9+)
 
-一个本地运行的 Gmail 自动回复工具：每天读取当天邮件，根据关键词匹配模板并自动回复。
+一个本地运行的 Gmail 自动回复工具：每天读取当天邮件，根据关键词匹配模板并自动回复。支持多账号、每账号独立规则/模板、独立 token/state。
 
 ## 快速开始
 
@@ -27,6 +27,8 @@ pip install -r requirements.txt
 
 ```bash
 python src/main.py --init-auth
+# 多账号授权（会分别生成 token_*.json）
+python src/main.py --init-auth --accounts first@example.com,second@example.com
 ```
 
 浏览器会弹出 OAuth 授权；成功后会在项目根目录生成 `token.json`（勿泄露）。
@@ -36,6 +38,8 @@ python src/main.py --init-auth
 ```bash
 python3.9 src/main.py --run
 python3.9 src/main.py --dry-run
+# 多账号运行（也可通过 .env: ACCOUNTS=...）
+python3.9 src/main.py --run --accounts first@example.com,second@example.com
 ```
 
 6. **定时执行**：
@@ -48,13 +52,14 @@ python3.9 src/main.py --dry-run
 ## 关键词与模板
 
 - 规则文件：`data/rules.json`
+- 支持按账号覆盖：存在 `data/rules_{email_sanitized}.json` 时会优先加载（其中 `{email_sanitized}` 是把邮箱里的 `@` 替换为 `_` 且过滤非法字符，比如 `user@gmail.com` → `user_gmail_com`）
 - 模板目录：`templates/`
 - 匹配逻辑：对 **主题+正文** 进行不区分大小写的包含判断（支持多关键词中任意命中 / 全部命中，见 `match_mode`）
 - 回复主题：默认 `Re: <原主题>`，可在规则中叠加 `subject_prefix`
 
 ## 避免重复回复
 
-- 程序会为已自动回复的线程添加标签 **AutoReplied** 并记录到 `data/state.json`，防止重复回复。
+- 程序会为已自动回复的线程添加标签 **AutoReplied** 并记录到 `data/state.json`（多账号对应 `data/state_{email_sanitized}.json`），防止重复回复。
 - 可通过 `.env` 中 `SKIP_SENDERS` 跳过特定发件人（逗号分隔）。
 
 ## 开发/调试
@@ -86,5 +91,5 @@ gmail_autoreply_python/
 
 - 首次运行需手动完成 OAuth 授权。
 - 本工具不会对垃圾邮件箱操作，仅处理收件箱（INBOX）。
-- 请保护好 `credentials.json` 与 `token.json`，避免泄露。
+- 请保护好 `credentials.json` 与 `token*.json`，避免泄露。
 
