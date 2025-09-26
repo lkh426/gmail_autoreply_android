@@ -109,7 +109,6 @@ def process_one_account(account: Optional[str], args, tz: str, include_labels, s
 
     # 规则（可按账号覆写）
     rules = _load_rules_for_account(account)
-    print('rules----',rules)
 
     # 规则中的标签
     apply_label_name = rules.get("apply_label") or "莫名扣款"

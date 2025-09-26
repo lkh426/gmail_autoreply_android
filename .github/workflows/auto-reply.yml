@@ -25,12 +25,12 @@ jobs:
 
       - name: Prepare credentials and tokens
         env:
-          CREDENTIALS_JSON: ${{ secrets.GMAIL_CREDENTIALS_JSON }}
-          TOKEN_DEFAULT_JSON: ${{ secrets.GMAIL_TOKEN_DEFAULT_JSON }}
-          TOKEN_PHOTOGRID_JSON: ${{ secrets.GMAIL_TOKEN_PHOTOGRID_JSON }}
+          CREDENTIALS_JSON: ${{ secrets.CREDENTIALS_JSON }}
+          TOKEN_DEFAULT_JSON: ${{ secrets.TOKEN_JSON }}
+          TOKEN_PHOTOGRID_JSON: ${{ secrets.TOKEN_IOS_JSON }}
         run: |
           if [ -z "$CREDENTIALS_JSON" ] || [ -z "$TOKEN_DEFAULT_JSON" ] || [ -z "$TOKEN_PHOTOGRID_JSON" ]; then
-            echo "Missing secrets. Please set GMAIL_CREDENTIALS_JSON, GMAIL_TOKEN_DEFAULT_JSON, GMAIL_TOKEN_PHOTOGRID_JSON" >&2
+            echo "Missing secrets. Please set CREDENTIALS_JSON, TOKEN_JSON, TOKEN_IOS_JSON" >&2
             exit 1
           fi
           printf "%s" "$CREDENTIALS_JSON" > credentials.json
@@ -43,7 +43,7 @@ jobs:
           INCLUDE_LABELS: INBOX
           DRY_RUN: "false"
         run: |
-          python src/main.py --run
+          python src/main.py  --dry-run
 
       - name: Photogrid account auto reply
         env:
@@ -51,6 +51,6 @@ jobs:
           INCLUDE_LABELS: INBOX
           DRY_RUN: "false"
         run: |
-          python src/main.py --run --accounts photogridapp.feedback@gmail.com
+          python src/main.py --run --accounts photogridapp.feedback@gmail.com --dry-run
 
 
