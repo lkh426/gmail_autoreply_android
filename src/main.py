@@ -241,10 +241,10 @@ def main():
         return
 
     # compute date in timezone
-    if args.date:
-        the_date = datetime.strptime(args.date, "%Y-%m-%d").date()
-    else:
-        the_date = datetime.now(ZoneInfo(tz)).date()
+    # if args.date:
+    #     the_date = datetime.strptime(args.date, "%Y-%m-%d").date()
+    # else:
+    #     the_date = datetime.now(ZoneInfo(tz)).date()
 
     for account in accounts:
         process_one_account(

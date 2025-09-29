@@ -43,7 +43,7 @@ jobs:
           INCLUDE_LABELS: INBOX
           DRY_RUN: "true"
         run: |
-          python src/main.py  --dry-run
+          python src/main.py
 
       - name: Photogrid account auto reply
         env:
@@ -51,6 +51,6 @@ jobs:
           INCLUDE_LABELS: INBOX
           DRY_RUN: "true"
         run: |
-          python src/main.py --run --accounts photogridapp.feedback@gmail.com --dry-run
+          python src/main.py --run --accounts photogridapp.feedback@gmail.com
 
 
