@@ -30,6 +30,7 @@ auth.json
 auth_*.json
 *.credentials
 *.tokens
+state.json
 
 # App state (runtime)
 # 提交默认的 data/state.json，仍然忽略各账号的独立 state_*.json
