@@ -217,7 +217,7 @@ def main():
     tz = os.getenv("TIMEZONE", "Asia/Singapore")
     include_labels = [l.strip() for l in os.getenv("INCLUDE_LABELS", "INBOX").split(",") if l.strip()]
     skip_senders = [s.strip().lower() for s in os.getenv("SKIP_SENDERS", "").split(",") if s.strip()]
-    dry_run = args.dry_run or os.getenv("DRY_RUN", "false").lower() == "false"
+    dry_run = args.dry_run
 
     # 解析多账号
     accounts_str = (args.accounts or os.getenv("ACCOUNTS", "")).strip()
